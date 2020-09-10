@@ -2,16 +2,18 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-  ofDisableArbTex();
+//  ofDisableArbTex();
   
   windowWidthF = (float)ofGetWidth();
   windowHeightF = (float)ofGetHeight();
   
+  // setup drawing surface
   rect.x = 0;
   rect.y = 0;
   rect.width = windowWidthF;
   rect.height = windowHeightF;
   
+  // load our shader
   shader.load(shaderPath+shaderName);
   
   rand.set( ofRandom(1.0), ofRandom(1.0), ofRandom(1.0) );
@@ -22,14 +24,14 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
+
+  // update time
   nowf = ofGetElapsedTimef();
   nowMillis = ofGetElapsedTimeMillis();
   
-  // update window size
-  windowWidthF = (float)ofGetWidth();
-  windowHeightF = (float)ofGetHeight();
-  
+  // update randomness
   rand.set( ofRandom(1.0), ofRandom(1.0), ofRandom(1.0) );
+  
 }
 
 
@@ -38,12 +40,11 @@ void ofApp::draw(){
   ofSetColor(255);
   
   shader.begin();
-  
   shader.setUniform1f("nowf", nowf);
   shader.setUniform1i("nowMillis", nowMillis);
   shader.setUniform3f("rand", rand );
   shader.setUniform2f("window", windowWidthF, windowHeightF);
-  ofDrawRectangle(rect);
+  ofDrawRectangle(rect);  // magic!
   shader.end();
   
   if(showFPS == true) drawFPS();
@@ -51,6 +52,7 @@ void ofApp::draw(){
 
 
 //--------------------------------------------------------------
+// pressing the 1 key will show the current Frames Per Second
 void ofApp::drawFPS() {
   // FPS
   stringstream ss;
@@ -62,6 +64,7 @@ void ofApp::drawFPS() {
 
 
 //--------------------------------------------------------------
+// pressing Enter key will save a jpeg of the app window
 void ofApp::windowScreenShot() {
   img.grabScreen(0,0,ofGetWidth(),ofGetHeight());
   ofPixels & pixels = img.getPixels();
@@ -75,9 +78,12 @@ void ofApp::windowScreenShot() {
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
+
+  // SHOW OUR FRAMES PER SECOND
   if (key == '1') {
     showFPS = !showFPS;
   }
+  
   // CREATE JPG IMAGE FROM CURRENT SCREEN
   if (key == OF_KEY_RETURN) {
     windowScreenShot();
@@ -121,7 +127,9 @@ void ofApp::mouseExited(int x, int y){
 
 //--------------------------------------------------------------
 void ofApp::windowResized(int w, int h){
-  
+  windowWidthF = (float)w;
+  windowHeightF = (float)h;
+  // std::cout << "windowResized w=" << w << " h=" << h << endl;
 }
 
 //--------------------------------------------------------------

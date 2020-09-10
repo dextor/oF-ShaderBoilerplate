@@ -24,20 +24,24 @@ public:
   void drawFPS();
   void windowScreenShot();
   
+  // shader stuff
   ofShader shader;
+  std::string shaderPath = "shaders/000/";
+  std::string shaderName = "shader";
+  std::string imgPath = shaderPath+"imgs/";
   
+  // time
   float nowf;
   int nowMillis;
-  
+
+  // space
   float windowWidthF;
   float windowHeightF;
   ofRectangle rect;
   
-  ofVec3f rand;
-  
+  ofVec3f rand; // glsl doesn't have randomness built in, so let oF handle it
+
+  // utils
   bool showFPS = false;
   ofImage img;
-  std::string shaderPath = "shaders/000/";
-  std::string shaderName = "shader";
-  std::string imgPath = shaderPath+"imgs/";
 };
